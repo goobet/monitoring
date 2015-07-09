@@ -1,0 +1,22 @@
+div class="col-md-6"
+ table id="sortable" class="table table-bordered table-striped" 
+  thead
+   tr
+    th Machine name
+    th CPU cores
+    th Memory total
+    th CPU load average
+    th Memory usage
+    th Status
+  tbody
+   - @octomachines_all.each_key do |otomachines_key|
+    tr
+     td = otomachines_key
+     td = $redis.hget("cores","#{otomachines_key}")
+     td = $redis.hget("available_memory","#{otomachines_key}")
+     td = $redis.hget("load_average","#{otomachines_key}") 
+     td = $redis.hget("memory_usage","#{otomachines_key}")
+     - if $redis.hget("status","#{otomachines_key}").present? 
+      td = $redis.hget("status","#{otomachines_key}")
+     - else
+      td = "Down"
