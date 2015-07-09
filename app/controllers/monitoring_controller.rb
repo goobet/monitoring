@@ -19,10 +19,10 @@ class MonitoringController < ApplicationController
  	$redis.expire("status", 10)
   
   	$redis.hset("cores", "#{params[:hostname]}", "#{params[:cores]}")
-  	$redis.expire("cores", 3600)
+  	$redis.expire("cores", 10)
 
 	$redis.hset("available_memory", "#{params[:hostname]}", "#{params[:available_memory]}")
-  	$redis.expire("available_memory", 3600)
+  	$redis.expire("available_memory", 10)
 
   	$redis.hset("load_average", "#{params[:hostname]}", "#{params[:load_average]}")
   	$redis.expire("load_average", 10)
