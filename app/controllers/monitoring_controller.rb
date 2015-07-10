@@ -2,19 +2,13 @@ class MonitoringController < ApplicationController
   skip_before_filter :verify_authenticity_token
   
   def index
-  	@octomachines_all = $redis.hgetall("octomachines").to_hash
+  	@machines_all = $redis.smembers("machines")
   end
 
   def machines_statistic
-  	machine_hostname = params[:hostname]
-  	machine_status = params[:status]
-  	machine_cores = params[:cores]
-  	machine_available_memory = params[:available_memory]
-  	machine_load_average = params[:load_average]
- 	machine_memory_usage = params[:memory_usage]
-
-    $redis.hset("octomachines", "#{params[:hostname]}", "#{params[:hostname]}") 	
-
+  	
+  	$redis.sadd("machines", "#{params[:hostname]}")
+  	
   	$redis.hset("status", "#{params[:hostname]}", "#{params[:status]}")
  	$redis.expire("status", 10)
   
