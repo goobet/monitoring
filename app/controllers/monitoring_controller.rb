@@ -10,7 +10,7 @@ class MonitoringController < ApplicationController
   	$redis.sadd("machines", params[:hostname])
   	set_machine_parameters.each do |parameter|
   	 $redis.hset(parameter, params[:hostname], params[parameter.to_sym])
- 	 $redis.expire("status", 10)
+ 	 $redis.expire(parameter, 10)
  	end 
     render nothing: true
   end
