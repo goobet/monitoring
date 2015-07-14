@@ -12,9 +12,5 @@ div class="col-md-6"
    - @machines_all.each do |machines|
     tr
      td = machines
-     td = $redis.hget("cores","#{machines}")
-     td = $redis.hget("available_memory","#{machines}")
-     td = $redis.hget("load_average","#{machines}") 
-     td = $redis.hget("memory_usage","#{machines}")
-     td = $redis.hget("status","#{machines}")
-     
+     - @machines_parameters.each do |parameter|
+      td = $redis.hget(parameter, machines)
