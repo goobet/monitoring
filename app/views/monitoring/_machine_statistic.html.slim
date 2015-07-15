@@ -3,17 +3,15 @@ div class="col-md-6"
   thead
    tr
     th Machine name
-    th CPU cores
-    th Memory total
-    th CPU load average
-    th Memory usage
+    th CPU usage, %
+    th Memory usage, %
     th Status
   tbody
    - @machines_all.each do |machine|
     tr
      td = machine
      - @machines_parameters.each do |parameter|
-      - if parameter == "status" and $redis.hget(machine, parameter) != "up"
+      - if parameter == "status" and $redis.hget(machine, parameter) != "Up"
          td = "Down"
       - else
          td = $redis.hget(machine, parameter)

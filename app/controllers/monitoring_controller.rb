@@ -16,7 +16,7 @@ class MonitoringController < ApplicationController
   end
 
   def set_machine_parameters
-  	machines_parameters = ["cores", "available_memory", "load_average", "memory_usage", "status"]
+  	machines_parameters = ["cpu_usage", "memory_usage", "status"]
   end
 
 end
