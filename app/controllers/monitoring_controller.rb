@@ -9,8 +9,8 @@ class MonitoringController < ApplicationController
   def machines_statistic
   	$redis.sadd("machines", params[:hostname])
   	set_machine_parameters.each do |parameter|
-  	 $redis.hset(parameter, params[:hostname], params[parameter.to_sym])
- 	 $redis.expire(parameter, 10)
+  	 $redis.hset(params[:hostname], parameter, params[parameter.to_sym])
+ 	 $redis.expire(params[:hostname], 5)
  	end 
     render nothing: true
   end

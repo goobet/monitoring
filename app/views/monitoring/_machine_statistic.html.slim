@@ -9,8 +9,11 @@ div class="col-md-6"
     th Memory usage
     th Status
   tbody
-   - @machines_all.each do |machines|
+   - @machines_all.each do |machine|
     tr
-     td = machines
+     td = machine
      - @machines_parameters.each do |parameter|
-      td = $redis.hget(parameter, machines)
+      - if parameter == "status" and $redis.hget(machine, parameter) != "up"
+         td = "Down"
+      - else
+         td = $redis.hget(machine, parameter)
