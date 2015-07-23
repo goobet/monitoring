@@ -1,4 +1,6 @@
-h1 Octomachines overview
-div id="statistic"
- == render "machine_statistic"
-script $(function() {setInterval(function(){$.getScript("/");}, 5000);})
+.container
+  .page-header
+    h1 Octomachines overview
+  .row
+    #machine_statistic.col-md-8 = render 'machine_statistic'
+    #online_list.col-md-4 = render 'online_list'
