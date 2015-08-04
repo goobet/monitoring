@@ -1,22 +1,28 @@
 class MonitoringController < ApplicationController
   skip_before_filter :verify_authenticity_token
-  
+  before_action :set_machines, only: [:index, :stats]
+
   def index
-  	@machines_all = $redis.smembers("machines")
-  	@machines_parameters = set_machine_parameters
+    @machines_states = StatesStorageService.current_states(@machines)
+    @stats = StatesStorageService.last_states(@machines)
+  end
+
+  def stats
+    render json: StatesStorageService.current_states(@machines)
   end
 
   def machines_statistic
-  	$redis.sadd("machines", params[:hostname])
-  	set_machine_parameters.each do |parameter|
-  	 $redis.hset(params[:hostname], parameter, params[parameter.to_sym])
- 	 $redis.expire(params[:hostname], 5)
- 	end 
+    StatesStorageService.save machine_params
     render nothing: true
   end
 
-  def set_machine_parameters
-  	machines_parameters = ["load_average", "free_memory", "status"]
+  private
+
+  def set_machines
+    @machines = StatesStorageService.all_machines
   end
 
+  def machine_params
+    params.permit(:hostname, :load_average, :free_memory)
+  end
 end

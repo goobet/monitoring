@@ -1,0 +1,10 @@
+h2 Machines list
+table.sortable.table.table-bordered.table-striped
+  thead
+   tr
+    th Machine name
+    th CPU load average
+    th Memory free, MB
+    th Status
+  tbody
+    = render partial: 'machine', collection: @machines_states

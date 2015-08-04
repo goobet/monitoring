@@ -1,17 +1,5 @@
-div class="col-md-6"
- table id="sortable" class="table table-bordered table-striped" 
-  thead
-   tr
-    th Machine name
-    th CPU load average
-    th Memory free, MB
-    th Status
-  tbody
-   - @machines_all.each do |machine|
-    tr
-     td = machine
-     - @machines_parameters.each do |parameter|
-      - if parameter == "status" and $redis.hget(machine, parameter) != "Up"
-         td = "Down"
-      - else
-         td = $redis.hget(machine, parameter)
+- @stats.each do |param, data|
+  .row
+    .col-md-12
+      h2 = t param
+      .chart = area_chart data, id: param, library: {xAxis: {type: 'datetime'}}
